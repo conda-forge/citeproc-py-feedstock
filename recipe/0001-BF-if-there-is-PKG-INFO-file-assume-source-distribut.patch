@@ -1,0 +1,51 @@
+From 4d7f95b5a870490cb5b8c692ce7a716d37f0dc3b Mon Sep 17 00:00:00 2001
+From: Yaroslav Halchenko <debian@onerussian.com>
+Date: Mon, 5 Dec 2022 09:17:13 -0500
+Subject: [PATCH] BF: if there is PKG-INFO file - assume source distribution
+
+Otherwise we can get troubles in distributions like conda-forge where
+packaging might be within git repository and thus git describe --always
+would succeed but would have nothing to do with citeproc version. See
+e.g.
+https://github.com/conda-forge/staged-recipes/pull/21429#issuecomment-1336531718
+---
+ setup.py           | 4 +++-
+ tests/test_base.py | 4 ++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+ create mode 100644 tests/test_base.py
+
+diff --git a/setup.py b/setup.py
+index c88eebb..75846d8 100755
+--- a/setup.py
++++ b/setup.py
+@@ -29,6 +29,8 @@ os.chdir(BASE_PATH)
+ # retrieve the version number from git or VERSION_FILE
+ # inspired by http://dcreager.net/2010/02/10/setuptools-git-version-numbers/
+ try:
++    if os.path.lexists(os.path.join(BASE_PATH, 'PKG-INFO')):
++        raise OSError("PKG-INFO exists")
+     print('Attempting to get version number from git...')
+     git = Popen(['git', 'describe', '--always', '--dirty'],
+                 stdout=PIPE, stderr=sys.stderr)
+@@ -42,7 +44,7 @@ try:
+         version_file.write("__version__ = '{}'\n".format(__version__))
+         version_file.write("__release_date__ = '{}'\n".format(__release_date__))
+ except OSError as e:
+-    print('Assume we are running from a source distribution.')
++    print(f'Assuming we are running from a source distribution: {e}')
+     # read version from VERSION_FILE
+     with open(VERSION_FILE) as version_file:
+         code = compile(version_file.read(), VERSION_FILE, 'exec')
+diff --git a/tests/test_base.py b/tests/test_base.py
+new file mode 100644
+index 0000000..3166cc6
+--- /dev/null
++++ b/tests/test_base.py
+@@ -0,0 +1,4 @@
++from citeproc.version import __version__
++
++def test_version():
++    assert len(__version__.split(".")) >= 3, f"__version__ should have MAJOR.MINOR.PATCH, got {__version__}"
+-- 
+2.35.1
+
