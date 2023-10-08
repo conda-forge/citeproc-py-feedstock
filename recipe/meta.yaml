@@ -13,7 +13,7 @@ source:
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
-  number: 3
+  number: 4
 
 requirements:
   host:
@@ -31,7 +31,8 @@ test:
     - citeproc
   commands:
     - pip check
-    - nosetests --where=tests --ignore-files=citeproc-test.py
+    # nose is not compatible with Python 3.12
+    - nosetests --where=tests --ignore-files=citeproc-test.py  # [py<312]
     - python tests/citeproc-test.py --no-update
   requires:
     - git
