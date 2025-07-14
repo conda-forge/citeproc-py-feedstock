@@ -46,6 +46,7 @@ test:
     - git
     - nose
     - pip
+    - wget
 
 about:
   home: https://github.com/brechtm/citeproc-py
