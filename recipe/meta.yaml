@@ -37,6 +37,8 @@ test:
     - pip check
     # nose is not compatible with Python 3.12
     - nosetests --where=tests --ignore-files=citeproc-test.py  # [py<312]
+    - ls -l 
+    - ls -l tests
     - python tests/citeproc-test.py --no-update
   requires:
     - git
