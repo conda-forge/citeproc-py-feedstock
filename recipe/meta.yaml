@@ -8,8 +8,6 @@ package:
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/citeproc_py-{{ version }}.tar.gz
   sha256: b30b10a1cac35b821a40442239d18474bdf8ae7b3e36b8ee7e6b2e8ee42dd192
-    #  patches:
-    #- 0001-BF-if-there-is-PKG-INFO-file-assume-source-distribut.patch
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
