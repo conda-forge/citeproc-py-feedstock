@@ -1,19 +1,17 @@
 {% set name = "citeproc-py" %}
-{% set version = "0.6.0" %}
+{% set version = "0.8.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/citeproc-py-{{ version }}.tar.gz
-  sha256: d9e3a224f936fe2e5033b5d9ffdacab769cedb61d96c4e0cf2f0b488f1d24b4e
-  patches:
-  - 0001-BF-if-there-is-PKG-INFO-file-assume-source-distribut.patch
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/citeproc_py-{{ version }}.tar.gz
+  sha256: b30b10a1cac35b821a40442239d18474bdf8ae7b3e36b8ee7e6b2e8ee42dd192
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
-  number: 5
+  number: 0
 
 requirements:
   build:
@@ -21,6 +19,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
   host:
     - pip
+    - setuptools
     - python
     - rnc2rng >=2.6.1,!=2.6.2
   run:
@@ -36,11 +35,16 @@ test:
     - pip check
     # nose is not compatible with Python 3.12
     - nosetests --where=tests --ignore-files=citeproc-test.py  # [py<312]
+    # I think this is cleaner than patching the missing file in
+    - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/2aeb25081c5ac66050ef773f81cc64e611ba517b/tests/failing_tests.txt -o tests/failing_tests.txt 
+    - ls -l 
+    - ls -l tests
     - python tests/citeproc-test.py --no-update
   requires:
     - git
     - nose
     - pip
+    - curl
 
 about:
   home: https://github.com/brechtm/citeproc-py
