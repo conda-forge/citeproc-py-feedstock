@@ -1,5 +1,5 @@
 {% set name = "citeproc-py" %}
-{% set version = "0.8.2" %}
+{% set version = "0.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/citeproc_py-{{ version }}.tar.gz
-  sha256: b30b10a1cac35b821a40442239d18474bdf8ae7b3e36b8ee7e6b2e8ee42dd192
+  sha256: 58781d8a563e87ca7cceb43d08beaca10dcdf9f3cf77ddf3b17894071edc27c8
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
-  number: 1
+  number: 0
 
 requirements:
   build:
@@ -36,8 +36,8 @@ test:
     # nose is not compatible with Python 3.12
     - nosetests --where=tests --ignore-files=citeproc-test.py  # [py<312]
     # I think this is cleaner than patching the missing file in
-    - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/2aeb25081c5ac66050ef773f81cc64e611ba517b/tests/failing_tests.txt -o tests/failing_tests.txt 
-    - ls -l 
+    - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/2aeb25081c5ac66050ef773f81cc64e611ba517b/tests/failing_tests.txt -o tests/failing_tests.txt
+    - ls -l
     - ls -l tests
     - python tests/citeproc-test.py --no-update
   requires:
@@ -51,7 +51,7 @@ about:
   summary: Citations and bibliography formatter
   license: BSD-2-Clause AND CC-BY-SA-3.0 AND MIT
 
-  license_file: 
+  license_file:
     - LICENSE
     - LICENSE_citation-style-language_locales.md
     - LICENSE_citation-style-language_schema.txt
