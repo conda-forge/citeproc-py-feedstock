@@ -42,6 +42,7 @@ test:
     - python tests/citeproc-test.py --no-update
   requires:
     - git
+    - citeproc-py-styles 
     - nose
     - pip
     - curl
