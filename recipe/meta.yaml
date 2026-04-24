@@ -1,5 +1,5 @@
 {% set name = "citeproc-py" %}
-{% set version = "0.8.3" %}
+{% set version = "0.9.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/citeproc_py-{{ version }}.tar.gz
-  sha256: 68ecd30bb8a270f405f1020c90a48701b96796adcf1ba76c3595742377a407a4
+  sha256: e80340846d5170bed1ad30515ef23bd96f771f6e6c81fdb4e7c3a12d4a17e5ab
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
-  number: 1
+  number: 0
 
 requirements:
   build:
@@ -42,6 +42,7 @@ test:
     - python tests/citeproc-test.py --no-update
   requires:
     - git
+    - citeproc-py-styles 
     - nose
     - pip
     - curl
