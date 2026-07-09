@@ -1,5 +1,5 @@
 {% set name = "citeproc-py" %}
-{% set version = "0.9.2" %}
+{% set version = "0.9.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/citeproc_py-{{ version }}.tar.gz
-  sha256: b95e263add56151f032a6b94c411792cc0029b542c2d6867be05932b0c4a8512
+  sha256: 8cf1bdb89e629075051ff225ae4b4edf485dab08a1ffe656506357a61a658649
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
@@ -36,7 +36,8 @@ test:
     # nose is not compatible with Python 3.12
     - nosetests --where=tests --ignore-files=citeproc-test.py  # [py<312]
     # I think this is cleaner than patching the missing file in
-    - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/2aeb25081c5ac66050ef773f81cc64e611ba517b/tests/failing_tests.txt -o tests/failing_tests.txt
+    # use the tag to keep the tests in sync with the release we are testing
+    - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/v{{ version }}/tests/failing_tests.txt -o tests/failing_tests.txt
     - ls -l
     - ls -l tests
     - python tests/citeproc-test.py --no-update
