@@ -36,7 +36,8 @@ test:
     # nose is not compatible with Python 3.12
     - nosetests --where=tests --ignore-files=citeproc-test.py  # [py<312]
     # I think this is cleaner than patching the missing file in
-    - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/2aeb25081c5ac66050ef773f81cc64e611ba517b/tests/failing_tests.txt -o tests/failing_tests.txt
+    # use the tag to keep the tests in sync with the release we are testing
+    - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/v{{ version }}/tests/failing_tests.txt -o tests/failing_tests.txt
     - ls -l
     - ls -l tests
     - python tests/citeproc-test.py --no-update
