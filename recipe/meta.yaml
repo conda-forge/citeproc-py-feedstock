@@ -1,5 +1,5 @@
 {% set name = "citeproc-py" %}
-{% set version = "0.10.1" %}
+{% set version = "0.10.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/citeproc_py-{{ version }}.tar.gz
-  sha256: 41e7247ae90fd185b2432e1484776507ac8542ddf491ceec1d9937b3a4c25843
+  sha256: 19566fe56d6fb791818b32204b51c42243c2a4b60f9e6d312e9371bfeac7d381
 
 build:
   script: {{ PYTHON }} -m pip install . -vv
