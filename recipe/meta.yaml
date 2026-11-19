@@ -10,24 +10,21 @@ source:
   sha256: 497c626a79e738cceb06e6144d216d120814649d7d01c157fbdbe837149f4599
 
 build:
+  noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  number: 1
 
 requirements:
-  build:
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - python                                 # [build_platform != target_platform]
-    - lxml                                   # [build_platform != target_platform]
   host:
     - lxml
     - pip
-    - python
+    - python {{ python_min }}
     - rnc2rng >=2.6.1,!=2.6.2
     - setuptools
     - versioneer
   run:
     - lxml
-    - python
+    - python >={{ python_min }}
 
 test:
   source_files:
@@ -36,8 +33,7 @@ test:
     - citeproc
   commands:
     - pip check
-    # nose is not compatible with Python 3.12
-    - nosetests --where=tests --ignore-files=citeproc-test.py  # [py<312]
+    - nosetests --where=tests --ignore-files=citeproc-test.py
     # I think this is cleaner than patching the missing file in
     # use the tag to keep the tests in sync with the release we are testing
     - curl https://raw.githubusercontent.com/citeproc-py/citeproc-py/v{{ version }}/tests/failing_tests.txt -o tests/failing_tests.txt
@@ -45,9 +41,10 @@ test:
     - ls -l tests
     - python tests/citeproc-test.py --no-update
   requires:
+    - python {{ python_min }}
     - git
     - citeproc-py-styles
-    - nose
+    - pynose
     - pip
     - curl
 
