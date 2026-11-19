@@ -1,5 +1,5 @@
 {% set name = "citeproc-py" %}
-{% set version = "0.12.1" %}
+{% set version = "0.12.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/citeproc_py-{{ version }}.tar.gz
-  sha256: 497c626a79e738cceb06e6144d216d120814649d7d01c157fbdbe837149f4599
+  sha256: 3036a4f3f7d14cee83bf2b17ab84c1cbddd8f945ab5ce104bd627b15f7badb96
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 1
+  number: 0
 
 requirements:
   host:
